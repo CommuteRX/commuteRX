@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <title>MedChart-Registration</title>
+      <link href='http://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
+      <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+      <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" href="css/style.css"/>
+    <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.ui.shake.js"></script>
+    <script type="text/javascript" src="js/createAccount.js"></script>
+  </head>
+  <body>
+    <div class="outer_wrapper">
+      <div class="top_nav">
+        <img src="img/heart_white.png"/>
+        <h1>Welcome to MedChart!</h1>
+        <h3>A PRACTICE ELECTRONIC HEALTH RECORD</h3>
+      </div>
+    <div class="divider"></div>
+      <div id="main">
+        <div id="box">
+          <form action="" autocomplete="on" method="POST">
+            <h1>User Account Registration</h1>
+            <p>
+              <label style="visibility: hidden;" for="register_first_name">Your first name: </label>
+              <input id="register_first_name" class="input" name="register_first_name" placeholder="First Name" required="required" type="text"/>
+            </p>
+            <p>
+              <label style="visibility: hidden;" for="register_last_name">Your last name: </label>
+              <input id="register_last_name" class="input" name="register_last_name" placeholder="Last Name" required="required" type="text"/>
+            </p>
+            <p>
+              <label style="visibility: hidden;" for="register_title">Your professional title: </label>
+              <input id="register_title" class="input" name="register_title" placeholder="Professional Title" required="required" type="text"/>
+            </p>
+            <p>
+              <label style="visibility: hidden;" for="register_username">Your username: </label>
+              <input id="register_username" class="input" name="register_username" placeholder="Username" required="required" type="text"/>
+            </p>
+            <p>
+              <label style="visibility: hidden;" for="register_password">Your password: </label>
+              <input id="register_password" class="input" name="register_password" placeholder="Password" required="required" type="password"/>
+            </p>
+              <input type="submit" class="button button-primary" value="Register" id="Register"/>
+            <span class='msg'></span>
+            <div class="register_result" id="register_result" ></div>
+            <div id="error"></div>
+            <br>
+          </form>
+        </div><br>
+        <p>Already have an account?<a href="index.php" class="to_register"> Log In </a></p>
+      </div>
+    </div>
+  </body>
+</html>
