@@ -11,7 +11,7 @@ if(isset($_SESSION['userid']) && $_SESSION['userid'] != ''){ // Redirect to secu
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>MedChart-Login</title>
+        <title>CommuteRX-Login</title>
         <link rel="stylesheet" href="css/style.css"/>
         <link href='http://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
