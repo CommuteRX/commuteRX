@@ -8,7 +8,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'login')
     $username = mysqli_real_escape_string($mysqli, $_POST['username']);
     $password = md5(mysqli_real_escape_string($mysqli, $_POST['password']));
 
-    $query = mysqli_query($mysqli,"SELECT * FROM mc_user WHERE user_name ='$username' and hash='$password'");
+    $query = mysqli_query($mysqli,"SELECT * FROM crx_user WHERE user_name ='$username' and hash='$password'");
     $num_rows = mysqli_num_rows($query); // Get the number of rows
 
 
@@ -25,7 +25,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'login')
         $_SESSION['userid'] 	= $fetch['user_id'];
         $_SESSION['username'] 	= $fetch['user_name'];
 
-        $_SESSION['user_role'] 	= $fetch['role'];
+        //$_SESSION['user_role'] 	= $fetch['role'];
 
 
         echo 1;//log the user in

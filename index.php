@@ -31,8 +31,8 @@ if(isset($_SESSION['userid']) && $_SESSION['userid'] != ''){ // Redirect to secu
     <div class="outer_wrapper">
       <div class="top_nav">
         <img src="img/heart_white.png"/>
-        <h1>Welcome to MedChart!</h1>
-        <h3>A PRACTICE ELECTRONIC HEALTH RECORD</h3>
+        <h1>Welcome to CommuteRx!</h1>
+        <h3>A SLOGAN GOES HERE!</h3>
       </div>
       <div class="divider"></div>
       <div id="main">

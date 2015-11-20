@@ -200,7 +200,7 @@
 <div class="top_nav">
     <a href="dashboard.php">
         <img src="img/heart_white.png"/>
-        <h2>MedChart</h2>
+        <h2>CommuteRX</h2>
     </a>
 </div>
 <div class="welcome">
@@ -227,14 +227,14 @@
             <div class="patient_database">
                 <h2><i class="icon-users">
 
-                </i>  Patient Database</h2>
+                </i>  Database</h2>
             </div>
         </a>
         <a href="registerPatient.php">
             <div class="register_new_patient">
                 <h2><i class="icon-user-plus">
 
-                </i>  Register New Patient</h2>
+                </i>  New Route</h2>
             </div>
         </a>
     </div>
