@@ -66,19 +66,24 @@ $(document).ready(function()
                 {
                 type : 'POST',
                 data : UrlToPass,
-                url  : 'accountRegister.php',
+                url  : 'validateRegistration',
                 success: function(responseText)  // Get the result and assign to each cases
                 {
-                    if(responseText == 0){
+                    if(responseText != 1){
                         //Shake animation effect.
                         $('#box').shake();
-                        register_result.html('<span id="incorrect_login" class="error">Username taken!</span>');
+                        register_result.html('<span id="incorrect_login" class="error">Username taken!</span>' +responseText);
                     }
                     else if(responseText == 1){
-                        window.location = 'index.php?register_success=1';
+
+                        register_result.html('SUCCESS!');
+                        window.location = 'Dashboard';
+                        //todo would be nice to thank the user ontop of the login page they get sent to
+                        // alternatively they could get their session vars set when they register...but..
+                        ///console.log(responseText);
                     }
                     else{
-                        alert('Problem with sql query');
+                        alert('Problem with sql query' + responseText);
                     }
                 }
             });

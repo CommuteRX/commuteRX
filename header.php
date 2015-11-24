@@ -1,18 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <?php echo("<title>$page_title</title>"); ?>
+
+    <!--Todo add metadata-->
     <meta charset="utf-8" />
-    <link href='http://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
-
-
+    <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script type="text/javascript" language="javascript" src="TableFilter/tablefilter.js"></script>
+    <script type="text/javascript" language="javascript" src="js/tablefilter.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
@@ -32,11 +31,11 @@
         }
     </style>
     <script>
-        var phpDate = new Date("<?php echo $datePickerDate;?>");
+       /* var phpDate = new Date("<?php //echo $datePickerDate;?>");
         $(function() {
             $( "#datepicker" ).datepicker();
             $( "#datepicker" ).datepicker( "setDate", phpDate);
-        });
+        });*/
     </script>
 
     <style>
@@ -56,144 +55,7 @@
             padding: 5px 10px;
         }
     </style>
-    <script>
-        (function( $ ) {
-            $.widget( "custom.combobox", {
-                _create: function() {
-                    this.wrapper = $( "<span>" )
-                        .addClass( "custom-combobox" )
-                        .insertAfter( this.element );
 
-                    this.element.hide();
-                    this._createAutocomplete();
-                    this._createShowAllButton();
-                },
-
-                _createAutocomplete: function() {
-                    var selected = this.element.children( ":selected" ),
-                        value = selected.val() ? selected.text() : "";
-
-                    this.input = $( "<input>" )
-                        .appendTo( this.wrapper )
-                        .val( value )
-                        .attr( "title", "" )
-                        .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
-                        .autocomplete({
-                            delay: 0,
-                            minLength: 0,
-                            source: $.proxy( this, "_source" )
-                        })
-                        .tooltip({
-                            tooltipClass: "ui-state-highlight"
-                        });
-
-                    this._on( this.input, {
-                        autocompleteselect: function( event, ui ) {
-                            ui.item.option.selected = true;
-                            this._trigger( "select", event, {
-                                item: ui.item.option
-                            });
-                        },
-
-                        autocompletechange: "_removeIfInvalid"
-                    });
-                },
-
-                _createShowAllButton: function() {
-                    var input = this.input,
-                        wasOpen = false;
-
-                    $( "<a>" )
-                        .attr( "tabIndex", -1 )
-                        .attr( "title", "Show All Items" )
-                        .tooltip()
-                        .appendTo( this.wrapper )
-                        .button({
-                            icons: {
-                                primary: "ui-icon-triangle-1-s"
-                            },
-                            text: false
-                        })
-                        .removeClass( "ui-corner-all" )
-                        .addClass( "custom-combobox-toggle ui-corner-right" )
-                        .mousedown(function() {
-                            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
-                        })
-                        .click(function() {
-                            input.focus();
-
-                            // Close if already visible
-                            if ( wasOpen ) {
-                                return;
-                            }
-
-                            // Pass empty string as value to search for, displaying all results
-                            input.autocomplete( "search", "" );
-                        });
-                },
-
-                _source: function( request, response ) {
-                    var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-                    response( this.element.children( "option" ).map(function() {
-                        var text = $( this ).text();
-                        if ( this.value && ( !request.term || matcher.test(text) ) )
-                            return {
-                                label: text,
-                                value: text,
-                                option: this
-                            };
-                    }) );
-                },
-
-                _removeIfInvalid: function( event, ui ) {
-
-                    // Selected an item, nothing to do
-                    if ( ui.item ) {
-                        return;
-                    }
-
-                    // Search for a match (case-insensitive)
-                    var value = this.input.val(),
-                        valueLowerCase = value.toLowerCase(),
-                        valid = false;
-                    this.element.children( "option" ).each(function() {
-                        if ( $( this ).text().toLowerCase() === valueLowerCase ) {
-                            this.selected = valid = true;
-                            return false;
-                        }
-                    });
-
-                    // Found a match, nothing to do
-                    if ( valid ) {
-                        return;
-                    }
-
-                    // Remove invalid value
-                    this.input
-                        .val( "" )
-                        .attr( "title", value + " didn't match any item" )
-                        .tooltip( "open" );
-                    this.element.val( "" );
-                    this._delay(function() {
-                        this.input.tooltip( "close" ).attr( "title", "" );
-                    }, 2500 );
-                    this.input.autocomplete( "instance" ).term = "";
-                },
-
-                _destroy: function() {
-                    this.wrapper.remove();
-                    this.element.show();
-                }
-            });
-        })( jQuery );
-
-        $(function() {
-            $( "#combobox" ).combobox();
-            $( "#toggle" ).click(function() {
-                $( "#combobox" ).toggle();
-            });
-        });
-    </script>
 
 </head>
 <body>
@@ -206,14 +68,14 @@
 <div class="welcome">
     <ul>
         <li><h3><a href="dashboard.php"></a></h3></li>
-        <li>WELCOME, <?php echo $user_name;?>!</li>
-        <li><a href="logout.php"><span class="icon-switch">
+        <li>WELCOME, <?php echo $_SESSION['username'];?>!</li>
+        <li><a href="Logout"><span class="icon-switch">
 
 				</span>Log Out</a></li>
     </ul>
 </div>
 <div class="user_page_location">
-    <?php echo("<h2>$user_page_location</h2>"); ?>
+    <?php //echo("<h2>$user_page_location</h2>"); ?>
 
 </div>
 

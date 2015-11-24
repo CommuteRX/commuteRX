@@ -1,7 +1,5 @@
 //Credit: Followed guide http://www.sitepoint.com/use-jquerys-ajax-function/
 // and http://www.9lessons.info/2014/07/ajax-php-login-page.html for how to incorporate shake animation effect
-
-
 $(document).ready(function()
 {
     $('#username').focus(); // Focus to the username field on body loads
@@ -25,22 +23,31 @@ $(document).ready(function()
             $.ajax({ // Send the credential values to  ajaxLogin.php using Ajax in POST menthod
                 type : 'POST',
                 data : UrlToPass,
-                url  : 'ajaxLogin.php',
+                url  : 'validateLogin',
                 success: function(responseText){ // Get the result and assign to each cases
+
+                    console.log(responseText);
                     if(responseText == 0){
                         //Shake animation effect.
                         $('#box').shake();
                         login_result.html('<span id="incorrect_login" class="error">Username or Password Incorrect!</span>');
+                        //console.log(responseText);
                     }
                     else if(responseText == 1){
-                        window.location = 'dashboard.php';
+                        //window.location.reload(true);
+                        window.location = 'Dashboard';
+                        login_result.html('SUCCESS!');
+                        //console.log(responseText);
                     }
                     else{
-                        alert('Problem with sql query');
+                        alert('Problem with sql query' );
+                        //console.log(responseText);
                     }
+
                 }
             });
         }
         return false;
     });
+
 });

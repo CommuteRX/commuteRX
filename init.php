@@ -1,27 +1,34 @@
 <?php
-ob_start();
-session_start();
+//todo needs some clean up.
+//current all it does is initialize the db, Other functions may or may not need to be moved depending
 
-// Report all PHP errors (see change log)
-error_reporting(E_ALL);
-//ini_set('display_errors', 1);
-include 'passkey.php';
+include 'Database.php';
+include 'LoginDB.php'; // extension example
+/*
+$mysqlInst = function($app){
+    return function () use ($app) {
+        $db_user = 'jackrobe-db';
+        $db_pass = 'Ex2Sqdt4jhzPkO7M';
+
+        //connect to database
+        $app->mysqli = new mysqli("oniddb.cws.oregonstate.edu", $db_user, $db_pass, $db_user);
+        if ($app->mysqli->connect_errno) {
+            echo "Failed to connect to MySQL: (" . $app->mysqli->connect_errno . ") " . $app->mysqli->connect_error;
+        } else {
+            //echo "Connection to database was a success!<br>";//for debugging
+        }
+        return true;
+    };
+};
+
+*/
+
+$db = new Database();
+
+$lg = new LoginDB();
 
 
-
-//connect to database
-$mysqli = new mysqli("oniddb.cws.oregonstate.edu", $db_user, $db_pass, $db_user);
-if ($mysqli->connect_errno){
-    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-}
-else
-{
-    //echo "Connection to database was a success!<br>";//for debugging
-}
-
-
-
-
+//todo this may or may not be optimal here
 /******************************************************
  *
  *      FORM VALIDATIONS AND VARIABLES
