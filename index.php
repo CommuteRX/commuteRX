@@ -10,13 +10,17 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-require 'vendor/autoload.php';
+
+require __DIR__.'/vendor/autoload.php';
 require_once 'init.php';
+
 
 $app = new \Slim\Slim(array(
     'mode' => 'development'));
 
 $app->add(new \Slim\Middleware\SessionCookie(array('secret' => 'myappsecret')));
+
+
 
 //could be used to check if there is an sctive session
 // currently not in use by the remainder of the router
@@ -207,13 +211,68 @@ $app->get('/Logout', function () use($app) {
         $page_title = "Logging you out";
         //require_once  'header.php';
         require_once 'logout.php';
-        //require_once  'footer.php';
+        require_once  'footer.php';
         $app->redirect('Dashboard', 301);
 
 
 });
 
 ///ADD NEW ROUTES HERE AS NECESSARY
+
+$app->get('/RouteAdd', function () use ($app, $db){
+    //If they are  logged in show them the dashboard
+    if(isset($_SESSION['userid']) && $_SESSION['userid'] != ''){ // Redirect to secured user page if user logged in
+
+        $page_title = "Adding Routes";
+        require_once 'header.php';
+        require_once 'viewRouteAdd.php';
+        require_once 'footer.php';
+
+    }else{
+
+        require_once 'login.html';
+
+    }
+
+});
+
+
+$app->post('/GenerateRoutes', function () use ($app){
+
+    //Post Vars
+    $action = $app->request()->post('action');
+    $start = $app->request()->post('start');
+    $end = $app->request()->post('end');
+
+    //VIP for JSON RESPONSES!!!
+    $app->response()->header('Content-Type', 'application/json');
+
+    $response = '';
+
+    //If there is a valid action
+    if($action == 'gen_route' ){ // Redirect to secured user page if user logged in
+
+        //call the route generator
+        require_once 'routeGenerator-OBSELETE.php';
+        $response = gen_response($start, $end, false);
+        echo $response;
+
+        //not generating a route
+    }else{
+
+        echo $response;
+
+    }
+
+});
+
+
+$app->get('/TESTDirection', function () use ($app){
+    echo "Testing Routes";
+    require_once 'testing/routeGeneratorTest.php';
+
+});
+
 $app->get('/TEST-DB', function () use($app, $lg, $db) {
     //explanation of some inheritance stuff in php
 
@@ -233,6 +292,9 @@ $app->get('/TEST-DB', function () use($app, $lg, $db) {
 
 
 });
+
+
+
 
 $app->run(); //vip
 ?>

@@ -18,7 +18,7 @@
 
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
     <link rel="stylesheet" href="css/stylesheet.css" type="text/css">
     
 
@@ -29,6 +29,11 @@
         .modal-alert{
             margin: 20px;
         }
+        #map {
+            height: 100%;
+        }
+        #start, #end{width:100% !important;}
+        .pac-item,.pac-container {width:inherit !important;}
     </style>
     <script>
        /* var phpDate = new Date("<?php //echo $datePickerDate;?>");
@@ -67,7 +72,7 @@
 </div>
 <div class="welcome">
     <ul>
-        <li><h3><a href="dashboard.php"></a></h3></li>
+        <li><h3><a href="Dashboard"></a></h3></li>
         <li>WELCOME, <?php echo $_SESSION['username'];?>!</li>
         <li><a href="Logout"><span class="icon-switch">
 
@@ -92,7 +97,7 @@
                 </i>  Database</h2>
             </div>
         </a>
-        <a href="registerPatient.php">
+        <a href="RouteAdd">
             <div class="register_new_patient">
                 <h2><i class="icon-user-plus">
 
