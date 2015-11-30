@@ -26,15 +26,20 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
             <div class="row">
                 <form action="" autocomplete="on" method="POST" class="route_entry form-inline">
                     <div class="row">
-                        <div class="col-sm-9 col-lg-5">
-                            <?php echo $autocompleteHelper->renderHtmlContainer($start);?>
+                        <div class="col-sm-9 col-lg-2">
+                            <label style="display: none;" for="start">Name:</label>
+                            <input type="text"  class="form-control " id="route_name" value="Route Name" >
                         </div>
-
-                        <div class="col-sm-9 col-lg-5">
-                            <?php echo $autocompleteHelper->renderHtmlContainer($destination);?>
+                        <div class="col-sm-9 col-lg-4">
+                            <label style="display: none;" for="start">Start:</label>
+                            <input type="text"  class="form-control " id="start" value="" >
+                        </div>
+                        <div class="col-sm-9 col-lg-4">
+                            <label style="display: none;" for="end">End:</label>
+                            <input type="text"  class="form-control " id="end" value="" >
                         </div>
                         <div class="col-sm-3 col-lg-2">
-                            <input type="submit" class="btn btn-primary" value="Add Route" id="get_route"/>
+                            <input type="submit" class="btn btn-primary" value="Add Route" id="add_route"/>
                         </div>
                     </div>
                     <span class='msg'></span>
@@ -49,8 +54,11 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
-                    Routes go here
+                <div class="col-lg-12" id="listRoutes">
+                    <ul class="list-group" id="route_list">
+
+                    </ul>
+
                 </div>
             </div>
         </div>
@@ -62,13 +70,13 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
         </div>
         <!-- display Directionss -->
         <div class="col-lg-3">
-            <div id="directions" ></div>
+            <div id="directions" >
+                <span id="route_message"></span>
+            </div>
         </div>
    </div>
 
 </div>
-
-
 
 
 <script type="text/javascript">
@@ -78,7 +86,7 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
 
         //directions
 
-        var geo = new google.maps.Geocoder;
+        var geo = new google.maps.Geocoder; // use to get place from geolocation or vise versa
 
         var map;
         var origin_place_id = null;
@@ -138,7 +146,7 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
             }
         }
 
-        //UPDATE MAP WHEN PLACE CHANGES
+        //UPDATE MAP WHEN Start PLACE CHANGES
         origin_autocomplete.addListener('place_changed', function() {
             var place = origin_autocomplete.getPlace();
             if (!place.geometry) {
@@ -154,6 +162,7 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
                 directionsService, directionsDisplay);
         });
 
+        //UPDATE MAP WHEN Destination PLACE CHANGES
         destination_autocomplete.addListener('place_changed', function() {
             var place = destination_autocomplete.getPlace();
             if (!place.geometry) {
@@ -169,6 +178,7 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
                 directionsService, directionsDisplay);
         });
 
+        //Sets the map display from inputs
         function route(origin_place_id, destination_place_id, travel_mode,
                        directionsService, directionsDisplay) {
             if (!origin_place_id || !destination_place_id) {
@@ -181,9 +191,9 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
             }, function(response, status) {
                 if (status === google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(response);
-                    console.log(response);
+                    //console.log(response);
                     //TODO GET THE LEGS of the ROUTE  into vars for STORAGE in our DB
-                    test = response;
+
 
                 } else {
                     window.alert('Directions request failed due to ' + status);
@@ -226,41 +236,46 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
 
 <script>
 
+    var test;
     $(document).ready(function()
     {
-
-        $('#get_route').click(function(){ // Create `click` event function for login
-            var start = $('#go'); // Get the username field
-            var end = $('#end'); // Get the password field
+        //TODO this should add routes to the list of users routes
+        $('#add_route').click(function(){ // Create `click` event function for login
+            var start = $('#start'); // Get startingpoint
+            var end = $('#end'); // Get the destination
+            var route_name = $('route_name');
+            var msg = $('#msg');
 
             if(start.val() == ''){ // Check the username values is empty or not
                 start.focus(); // focus to the filed
-                login_result.html('<span class="error">Enter the starting point</span>');
+                msg.html('<span class="error">Enter the starting point</span>');
                 return false;
             }
             if(end.val() == ''){ // Check the password value is empty
                 end.focus();
-                login_result.html('<span class="error">Enter the destination</span>');
+               msg.html('<span class="error">Enter the destination</span>');
                 return false;
             }
             if(start.val() != '' && end.val() != ''){ // Check the username and password values is not empty and make the ajax request
-                var UrlToPass = 'action=gen_route&start='+start.val()+'&end='+end.val();
+                var UrlToPass = 'action=add_route&start='+start.val()+'&end='+end.val()+'&name='+route_name.val();
                 $.ajax({ // Send the credential values to  ajaxLogin.php using Ajax in POST menthod
                     type : 'POST',
                     data : UrlToPass,
-                    //TODO MAKE A FUNCTION HERE THAT ADDS THE ROUTES to the DB
-                    url  : '',
+                    url  : 'addRoute',
                     success: function(responseText){ // Get the result and assign to each cases
-                        //console.log(responseText);
 
                         if(responseText == ''){
                             // handle no reply
+                            console.log('FAIL');
                             console.log(responseText);
+
                         }
                         else{
 
-                         //responseText;
-                            console.log(responseText);
+                            //var sAddress =responseText.routes[0].legs[0].start_address; // keep this for reference
+                            // TODO javascript function adds route to html
+                            console.log(responseText );
+
                         }
 
                     }
@@ -269,14 +284,51 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
             return false;
         });
 
-        function handleResponse(response){
 
-            response = ''
-        }
+
+
+        var UrlToPass = 'action=list_routes';
+        $.ajax({ // Send the credential values to  ajaxLogin.php using Ajax in POST menthod
+            type : 'POST',
+            data : UrlToPass,
+            url  : 'ListRoutes',
+            success: function(responseText){ // Get the result and assign to each cases
+                //console.log(responseText);
+
+                if(responseText == ''){
+                    // handle no reply
+                    $('#route_message').innerHTML = responseText.message
+                }
+                else{
+
+                    //responseText;
+                    //TODO this should be a json response that has info we can add do a display list of routes.
+                    //console.log(responseText);
+                    listRoutes(responseText)
+                }
+
+            }
+        });
+
+
+
 
     });
 
+    function listRoutes(dbobj){
 
+
+       var list = dbobj['data'];
+
+        $.each( list, function( key, val ) {
+            console.log(val);
+
+            var $li = $("<li>NAME:"+val.route_name+" START:"+ val.route_start+ " END:"+ val.route_end+"</li>");
+            $("#route_list").append($li);
+        });
+
+
+    }
 </script>
 
 

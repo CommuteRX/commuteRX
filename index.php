@@ -7,12 +7,13 @@ session_start();
  * Date: 11/20/2015
  * Time: 2:19 PM
  */
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require __DIR__.'/vendor/autoload.php';
-require_once 'init.php';
+require_once 'init.php';  //currently just instanciating new classes
 
 
 $app = new \Slim\Slim(array(
@@ -217,13 +218,13 @@ $app->get('/Logout', function () use($app) {
 
 });
 
-///ADD NEW ROUTES HERE AS NECESSARY
+///ADD NEW URL ROUTES HERE AS NECESSARY
 
-$app->get('/RouteAdd', function () use ($app, $db){
+$app->get('/Routes', function () use ($app, $db){
     //If they are  logged in show them the dashboard
     if(isset($_SESSION['userid']) && $_SESSION['userid'] != ''){ // Redirect to secured user page if user logged in
 
-        $page_title = "Adding Routes";
+        $page_title = "Routes";
         require_once 'header.php';
         require_once 'viewRouteAdd.php';
         require_once 'footer.php';
@@ -237,32 +238,95 @@ $app->get('/RouteAdd', function () use ($app, $db){
 });
 
 
-$app->post('/GenerateRoutes', function () use ($app){
+$app->post('/ListRoutes', function () use ($app, $routes){
+    $response = [];
+    //todo start checking not the user id but for an actual session id
+    if(isset($_SESSION['userid']) && $_SESSION['userid'] != '') { // Redirect to secured user page if user logged in
 
-    //Post Vars
-    $action = $app->request()->post('action');
-    $start = $app->request()->post('start');
-    $end = $app->request()->post('end');
+        //Post Vars
+        $action = $app->request()->post('action');
 
-    //VIP for JSON RESPONSES!!!
-    $app->response()->header('Content-Type', 'application/json');
+        //others
+        $response['user'] = $_SESSION['userid'] . $_SESSION['username'];
 
-    $response = '';
+        //VIP for JSON RESPONSES!!!
+        $app->response()->header('Content-Type', 'application/json');
 
-    //If there is a valid action
-    if($action == 'gen_route' ){ // Redirect to secured user page if user logged in
+        //If there is a valid action
+        if ($action == 'list_routes') { // Redirect to secured user page if user logged in
 
-        //call the route generator
-        require_once 'routeGenerator-OBSELETE.php';
-        $response = gen_response($start, $end, false);
-        echo $response;
+            //add the route to the DB
+            if($usersRoutes = $routes->get_userRoutes($_SESSION['userid'])){
 
-        //not generating a route
+                $response['message'] = $routes->feedback;
+                $response['data'] = $usersRoutes;
+
+            //bad database
+            }else {
+
+                $response['message'] = $routes->feedback;
+            }
+
+            //no action set
+        } else {
+
+            $response['message'] = "Not Allowed";
+
+        }
     }else{
 
-        echo $response;
+        $response['message']= 'No Valid User Session for add routes' ;
 
     }
+    $app->response->body( json_encode($response));
+
+});
+
+
+$app->post('/addRoute', function () use ($app, $routes, $db){
+
+    $response = [];
+    //todo start checking not the user id but for an actual session id
+    if(isset($_SESSION['userid']) && $_SESSION['userid'] != '') { // Redirect to secured user page if user logged in
+
+        //Post Vars
+        $action = $app->request()->post('action');
+        $start = $app->request()->post('start');
+        $end = $app->request()->post('end');
+        $name = $app->request()->post('name');
+
+        //others
+        $response['user'] = $_SESSION['userid'] . $_SESSION['username'];
+
+        //VIP for JSON RESPONSES!!!
+        $app->response()->header('Content-Type', 'application/json');
+
+        //If there is a valid action
+        if ($action == 'add_route') { // Redirect to secured user page if user logged in
+
+            //add the route to the DB
+            if($routes->addRoute($start, $end, $name, $_SESSION['userid'])){
+
+                $response['message'] = $routes->feedback;
+
+            //bad database
+            }else {
+
+                $response['message'] = $routes->feedback;
+            }
+
+         //no action set
+        } else {
+
+            $response['message'] = "Not Allowed";
+
+        }
+    }else{
+
+        $response['message']= 'No Valid User Session for add routes' ;
+
+    }
+    $app->response->body( json_encode($response));
 
 });
 

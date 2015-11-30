@@ -11,7 +11,7 @@ class Database
         $this->usr = 'jackrobe-db';
         $this->db = 'jackrobe-db';
         $this->host = 'oniddb.cws.oregonstate.edu';
-        $this->password = 'Ex2Sqdt4jhzPkO7M';
+        $this->password = 'Lcn03teET3EbfHb0';
         $this->success = '';
         $this->feedback = '';
         $this->id = '';

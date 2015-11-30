@@ -85,23 +85,23 @@
 </div>
 
     <div class="navigation_btns">
-        <a href="dashboard.php">
+        <a href="Dashboard">
             <div class="my_dashboard">
                 <h2><i class="icon-home"></i>  My Dashboard</h2>
-            </div>
-        </a>
-        <a href="patientList.php">
-            <div class="patient_database">
-                <h2><i class="icon-users">
-
-                </i>  Database</h2>
             </div>
         </a>
         <a href="RouteAdd">
             <div class="register_new_patient">
                 <h2><i class="icon-user-plus">
 
-                </i>  New Route</h2>
+                </i>  Add Route</h2>
+            </div>
+        </a>
+        <a href="">
+            <div class="patient_database">
+                <h2><i class="icon-users">
+
+                    </i>  My Account</h2>
             </div>
         </a>
     </div>
