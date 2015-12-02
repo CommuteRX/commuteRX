@@ -36,7 +36,6 @@ class Database
 
     /** check_userName
      * Checks if user name is in the database
-
      * @param {string} $user
      * @this { check_userName  }
      * @return { boolean} True if present

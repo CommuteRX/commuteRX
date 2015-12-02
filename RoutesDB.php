@@ -10,20 +10,21 @@ class RoutesDB extends Database
 
     /** GET USER ROUTES FROM DB
      * @return array|string
+     * @param uid the user's ID
      */
     public function get_userRoutes(&$uid)
     {
         $st = $this->ms->stmt_init(); // VIP
 
         $st->prepare( "SELECT
-rout.route_name,
-rout.route_start,
-rout.route_end
-FROM
-crx_user AS `user`
-INNER JOIN crx_user_route AS urout ON urout.uid = `user`.user_id
-INNER JOIN crx_routes AS rout ON urout.rid = rout.id
-                      WHERE user.user_id =?");
+                        rout.route_name,
+                        rout.route_start,
+                        rout.route_end
+                        FROM
+                        crx_user AS `user`
+                        INNER JOIN crx_user_route AS urout ON urout.uid = `user`.user_id
+                        INNER JOIN crx_routes AS rout ON urout.rid = rout.id
+                                              WHERE user.user_id =?");
 
         $routes = array();
 
@@ -49,6 +50,11 @@ INNER JOIN crx_routes AS rout ON urout.rid = rout.id
 
     }
 
+    /** ADDS A ROUTES TO DB
+     * @return t/f on success
+     * @ sets feedback
+     * @param string|start, string|end, string|name, userID
+     */
     public function addRoute(&$start, &$end, &$name, &$uid ){
 
         // Now add the route
@@ -87,6 +93,11 @@ INNER JOIN crx_routes AS rout ON urout.rid = rout.id
 
     }
 
+    /** Links a route to a user
+     * @return t/f on success
+     * @ sets feedback
+     * @param the route ID, userID
+     */
     private function addUserRoute(&$uid, &$rid)
     {
 

@@ -6,12 +6,6 @@
  * Time: 8:33 PM
  */
 
-//Get autocomplete HTML/JS from Google
-include_once 'PlaceAutoComplete.php';
-$start = makeAuto('start', 'form-control ', 'Starting Point');
-$destination = makeAuto('end', 'form-control ', 'Destination');
-
-
 ?>
 <div class="container-fluid">
 
@@ -221,25 +215,20 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
         });
     }
 
-
-    //AUTOCOMPLETE CALLBACK
-   // function load_ivory_google_map_api () { google.load("maps", "3", {"other_params":"libraries=places&language=en&signed_in=true","callback":load_ivory_google_place}); };
 </script>
 
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALjLA0zJhijfA12n9JfPPftDPD2xXEZa8&libraries=places&callback=initGMAP"
         async defer></script>
-<script type="text/javascript">
-
-</script>
-
 
 <script>
 
-    var test;
     $(document).ready(function()
     {
-        //TODO this should add routes to the list of users routes
+        //ADDs the route  to current user
+        //@return
+        //@handles the response from addRout
+        //@uses getRoutes
         $('#add_route').click(function(){ // Create `click` event function for login
             var start = $('#start'); // Get startingpoint
             var end = $('#end'); // Get the destination
@@ -267,14 +256,14 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
                         if(responseText == ''){
                             // handle no reply
                             console.log('FAIL');
-                            console.log(responseText);
+                            //console.log(responseText);
 
                         }
                         else{
 
                             //var sAddress =responseText.routes[0].legs[0].start_address; // keep this for reference
                             // TODO javascript function adds route to html
-                            console.log(responseText );
+                            //console.log(responseText );
                             getRoutes();
 
                         }
@@ -293,6 +282,10 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
 
     });
 
+    //Asks the DB for routes belonging to current user
+    //@return
+    //@handles the response from ListRoutes
+    //@uses displayRoutes to display the routes on success
     function getRoutes(){
         var UrlToPass = 'action=list_routes';
         $.ajax({ // Send the credential values to  ajaxLogin.php using Ajax in POST menthod
@@ -318,14 +311,16 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
         });
     }
 
-
+    //Displays the routes in a list form
+    //@param the data object retunred from post request to ListRouts
+    // really should be a "private function"
     function displayRoutes(dbobj){
 
 
         var list = dbobj['data'];
         //todo Make this prettier!
         $.each( list, function( key, val ) {
-            console.log(val);
+            //console.log(val);
             //todo add an id to each row
             //todo add an icon with id to each row for delete
             //todo add function for view a route
