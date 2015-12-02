@@ -3,7 +3,8 @@
 //current all it does is initialize the db, Other functions may or may not need to be moved depending
 
 include 'Database.php';
-include 'LoginDB.php'; // extension example
+include 'LoginDB.php';
+include 'RoutesDB.php';// extension example
 /*
 $mysqlInst = function($app){
     return function () use ($app) {
@@ -24,7 +25,7 @@ $mysqlInst = function($app){
 */
 
 $db = new Database();
-
+$routes = new RoutesDB();
 $lg = new LoginDB();
 
 

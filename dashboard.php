@@ -64,7 +64,7 @@
         $.each( list, function( key, val ) {
             console.log(val);
 
-            var $li = $("<li>NAME:"+val.route_name+" START:"+ val.route_start+ " END:"+ val.route_end+"</li>");
+            var $li = $("<li class=\"list-group-item\" ><strong>Name:</strong>"+val.route_name+"<br/><strong>Start:</strong>"+ val.route_start+ " <strong>End:</strong>"+ val.route_end+"</li>");
             $("#route_list").append($li);
         });
 

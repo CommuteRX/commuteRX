@@ -26,19 +26,19 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
             <div class="row">
                 <form action="" autocomplete="on" method="POST" class="route_entry form-inline">
                     <div class="row">
-                        <div class="col-sm-9 col-lg-2">
+                        <div class="col-sm-12 col-lg-2">
                             <label style="display: none;" for="start">Name:</label>
                             <input type="text"  class="form-control " id="route_name" value="Route Name" >
                         </div>
-                        <div class="col-sm-9 col-lg-4">
+                        <div class="col-sm-12 col-lg-4">
                             <label style="display: none;" for="start">Start:</label>
                             <input type="text"  class="form-control " id="start" value="" >
                         </div>
-                        <div class="col-sm-9 col-lg-4">
+                        <div class="col-sm-12 col-lg-4">
                             <label style="display: none;" for="end">End:</label>
                             <input type="text"  class="form-control " id="end" value="" >
                         </div>
-                        <div class="col-sm-3 col-lg-2">
+                        <div class="col-sm-12 col-lg-2">
                             <input type="submit" class="btn btn-primary" value="Add Route" id="add_route"/>
                         </div>
                     </div>
@@ -275,6 +275,7 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
                             //var sAddress =responseText.routes[0].legs[0].start_address; // keep this for reference
                             // TODO javascript function adds route to html
                             console.log(responseText );
+                            getRoutes();
 
                         }
 
@@ -286,7 +287,13 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
 
 
 
+       getRoutes();
 
+
+
+    });
+
+    function getRoutes(){
         var UrlToPass = 'action=list_routes';
         $.ajax({ // Send the credential values to  ajaxLogin.php using Ajax in POST menthod
             type : 'POST',
@@ -304,31 +311,31 @@ $destination = makeAuto('end', 'form-control ', 'Destination');
                     //responseText;
                     //TODO this should be a json response that has info we can add do a display list of routes.
                     //console.log(responseText);
-                    listRoutes(responseText)
+                    displayRoutes(responseText)
                 }
 
             }
         });
+    }
 
 
+    function displayRoutes(dbobj){
 
 
-    });
-
-    function listRoutes(dbobj){
-
-
-       var list = dbobj['data'];
-
+        var list = dbobj['data'];
+        //todo Make this prettier!
         $.each( list, function( key, val ) {
             console.log(val);
-
-            var $li = $("<li>NAME:"+val.route_name+" START:"+ val.route_start+ " END:"+ val.route_end+"</li>");
+            //todo add an id to each row
+            //todo add an icon with id to each row for delete
+            //todo add function for view a route
+            var $li = $("<li class=\"list-group-item\" ><strong>Name:</strong>"+val.route_name+"<br/><strong>Start:</strong>"+ val.route_start+ " <strong>End:</strong>"+ val.route_end+"</li>");
             $("#route_list").append($li);
         });
 
 
     }
+
 </script>
 
 

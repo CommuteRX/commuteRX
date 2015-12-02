@@ -65,8 +65,8 @@
 </head>
 <body>
 <div class="top_nav">
-    <a href="dashboard.php">
-        <img src="img/heart_white.png"/>
+    <a href="Dashboard">
+        <img src=""/>
         <h2>CommuteRX</h2>
     </a>
 </div>
@@ -90,7 +90,7 @@
                 <h2><i class="icon-home"></i>  My Dashboard</h2>
             </div>
         </a>
-        <a href="RouteAdd">
+        <a href="Routes">
             <div class="register_new_patient">
                 <h2><i class="icon-user-plus">
 

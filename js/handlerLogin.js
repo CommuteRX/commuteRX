@@ -49,5 +49,8 @@ $(document).ready(function()
         }
         return false;
     });
+    $('#register').click(function() { // Create `click` event function for registration
+        window.location = 'Register';
+    });
 
 });
