@@ -287,13 +287,13 @@ $app->post('/addRoute', function () use ($app, $routes, $db){
 
     $response = [];
     //todo start checking not the user id but for an actual session id
-    if(isset($_SESSION['userid']) && $_SESSION['userid'] != '') { // Redirect to secured user page if user logged in
+    if((isset($_SESSION['userid']) && $_SESSION['userid'] != ''  )) { // Redirect to secured user page if user logged in
 
         //Post Vars
         $action = $app->request()->post('action');
         $start = $app->request()->post('start');
         $end = $app->request()->post('end');
-        $name = $app->request()->post('name');
+        $name = $app->request()->post('route_name');
 
         //others
         $response['user'] = $_SESSION['userid'] . $_SESSION['username'];
@@ -331,9 +331,61 @@ $app->post('/addRoute', function () use ($app, $routes, $db){
 });
 
 
-$app->get('/TESTDirection', function () use ($app){
-    echo "Testing Routes";
-    require_once 'testing/routeGeneratorTest.php';
+$app->get('/TESTRoutes', function () use ($app, $db, $routes){
+    echo "Testing Routes:";
+
+    $_SESSION['userid']  = '4';
+    $_SESSION['username'] = $db->userName;
+
+    $rt = new RoutesDB();
+    require_once 'unit_tests/Routes/routeTesting.php';
+
+});
+
+$app->post('/TESTaddRoute', function () use ($app, $routes, $db){
+
+    $response = [];
+    //todo start checking not the user id but for an actual session id
+    if($app->request()->post('TESTMODE') =='ROBTESTIN') { // Redirect to secured user page if user logged in
+
+        //Post Vars
+        $action = $app->request()->post('action');
+        $start = htmlentities($app->request()->post('start'));
+        $end = $app->request()->post('end');
+        $name = $app->request()->post('route_name');
+
+        //others
+        $response['user'] = '4' . 'test';
+
+        //VIP for JSON RESPONSES!!!
+        $app->response()->header('Content-Type', 'application/json');
+
+        //If there is a valid action
+        if ($action == 'add_route') { // Redirect to secured user page if user logged in
+
+            //add the route to the DB
+            if($routes->addRoute($start, $end, $name, '4')){
+
+                $response['message'] = $routes->feedback;
+
+                //bad database
+            }else {
+
+                $response['message'] = $routes->feedback;
+            }
+
+            //no action set
+        } else {
+
+            $response['message'] = "Not Allowed";
+
+        }
+    }else{
+
+        $response['message']= 'No Valid User Session for TEST add routes' ;
+
+    }
+    $app->response->body( json_encode($response));
 
 });
 
